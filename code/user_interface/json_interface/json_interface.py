@@ -18,7 +18,6 @@ def get_last_page():
 def write_jsonl(path,json_obj):
     with jsonlines.open(path, mode='a') as writer:
         writer.write(json_obj)
-        writer.write()
     return
 
 def print_page(page):

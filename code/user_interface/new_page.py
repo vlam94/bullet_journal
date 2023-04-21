@@ -30,7 +30,7 @@ def task_checker(page):
     return checker
 
 def rewrite_field(fieldcat,page):
-    field = fieldcat.rstrip(fieldcat[-1]) + '_ '
+    field = fieldcat.rstrip(fieldcat[-1]) + '  '
     while True:
         fieldnum = input(f"\nWich {fieldcat[:-1]} would you like to re-enter?: ")
         field = field[:-1] + fieldnum
