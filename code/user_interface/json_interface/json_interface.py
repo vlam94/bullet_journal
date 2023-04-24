@@ -1,6 +1,6 @@
 import json
 import jsonlines
-
+import datetime
 
 JOURNAL_PATH = '/home/vlam94/bullet_journal/data/journal.jsonl'
 TASK_CHECKER_PATH = '/home/vlam94/bullet_journal/data/task_check.jsonl'
@@ -9,14 +9,20 @@ def load_page_template(path):
     with open(path, 'r') as f:
         return json.load(f)
 
+def load_today_template(path):
+    page = load_page_template(path)
+    page['date'] = datetime.date.today().strftime('%Y-%m-%d')
+    return page
+
+
 def get_last_page():
     with jsonlines.open(JOURNAL_PATH) as reader:
         for page in reader:
             last_page = page
     return last_page
 
-def get_lat_check():
-    with jsonlines.open(JOURNAL_PATH) as reader:
+def get_last_check():
+    with jsonlines.open(TASK_CHECKER_PATH) as reader:
         for check in reader:
             last_check = check
     return last_check

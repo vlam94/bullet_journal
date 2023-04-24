@@ -1,4 +1,6 @@
+.vscode
 bullet_journal/data
 *.txt
 *.jsonl
-
+__pycache__/
+*.pyc

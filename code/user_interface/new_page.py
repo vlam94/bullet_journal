@@ -1,13 +1,12 @@
 import datetime
 from json_interface import json_interface as ji
 
-PAGE_TEMPLATE_PATH = 'code/user_interface/page_template.json'
-CHECKER_TEMPLATE_PATH = 'code/user_interface/checker_template.json'
+PAGE_TEMPLATE_PATH = 'page_template.json'
+CHECKER_TEMPLATE_PATH = 'checker_template.json'
 
 def page_fill():
-    page = ji.load_page_template(PAGE_TEMPLATE_PATH)
-    page['date'] = datetime.date.today().strftime('%Y-%m-%d')
-
+    page = ji.load_today_template(PAGE_TEMPLATE_PATH)
+    
     page['good_things']['good_thing_1'] = input("What is one good thing that happened today? ")
     page['good_things']['good_thing_2'] = input("What is another good thing that happened today? ")
     page['good_things']['good_thing_3'] = input("What is one more good thing that happened today? ")
@@ -22,11 +21,11 @@ def page_fill():
     return page
 
 def task_checker(page):
-    checker = ji.load_page_template(CHECKER_TEMPLATE_PATH)
-    checker['date'] = page['date']
+    checker = ji.get_last_check()
     for task in page['plans']:
-        check = input(f"Did you completed '{page['plans'][task]}' as planned?\n(y/n)").lower().startswith('y')
-        checker['plans_check'][task] = int(check)
+        if not checker['plans_check'][task]:
+            check = input(f"Did you completed '{page['plans'][task]}' as planned?\n(y/n)").lower().startswith('y')
+            checker['plans_check'][task] = int(check)
     return checker
 
 def rewrite_field(fieldcat,page):
@@ -69,7 +68,7 @@ print("\n\nHere's a preview of the page:\n")
 page_check(page)
 ji.write_jsonl(ji.JOURNAL_PATH, page)
 ji.write_jsonl(ji.TASK_CHECKER_PATH, task_check)
-
+ji
 print("Nice job!\nEntry complete for today!")
 
 #json file review

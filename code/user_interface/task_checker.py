@@ -1,24 +1,42 @@
 from json_interface import json_interface as ji
 
 page = ji.get_last_page()
-check = ji.get_lat_check()
+check = ji.get_last_check()
 
 def today_plans(page,check):
     print("\n\nPlans for today:\n")
-    for i, plan, check in zip(enumerate(page['plans'].values(), start=1),check):
+    it = [*zip(page['plans'].values(),check['plans_check'].values())]
+    for i, [plan, check] in enumerate(it, start=1):
         if bool(check):
-            print(f"{i}. {plan}\n [x]")
+            print(f"{i}. {plan} [x]\n")
         else:
-            print(f"{i}. {plan}\n [ ]")
+            print(f"{i}. {plan} [ ]\n")
+
+
+def task_mark_done(done,inp):
+    try:
+        inp=int(inp)
+    except ValueError:
+        return
+    if inp<8:
+        check["plans_check"][f"plan_{inp}"] = int(done)
+        today_plans(page,check)
+        print("\nDo you want to mark another task?\n(which/n):",end="")
+    else:
+        print('Invalid task! Select from 1 to 7: ', end="")
+    inp = input().lower()
+    task_mark_done(done,inp)
 
 today_plans(page,check)
-inp = input("\nHave you complete any task?\n(wich/n):").lower()
-while not inp.startswith('n'):
-    if int(inp) and int(inp)<8:
-        check["plans_check"][f"plan_{inp}"] = 1
-        today_plans(page,check)
-        inp = input("\nHave you complete any other task?\n(wich/n):").lower()
-    else:
-        print('invalid task!')
-        inp=('Invalid task, select another one!')
+inp = input("\nHave you complete any task?\n(which/n):").lower()
+try:
+    inp=int(inp)
+except ValueError:
+    exit()
+task_mark_done(True,inp)
+inp = input("Do you wish to correct(unmark) any task?\n(which/n)").lower()
+task_mark_done(False,inp)
+ji.write_jsonl(ji.TASK_CHECKER_PATH, check)
+print('\nHere are the updated plans for today:\n')
+today_plans(page,ji.get_last_check())    
     
