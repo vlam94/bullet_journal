@@ -2,8 +2,8 @@ import json
 import jsonlines
 
 
-JOURNAL_PATH = '../../data/journal.jsonl'
-TASK_CHECKER_PATH = '../../data/task_check.jsonl'
+JOURNAL_PATH = '/home/vlam94/bullet_journal/data/journal.jsonl'
+TASK_CHECKER_PATH = '/home/vlam94/bullet_journal/data/task_check.jsonl'
 
 def load_page_template(path):
     with open(path, 'r') as f:
@@ -14,6 +14,12 @@ def get_last_page():
         for page in reader:
             last_page = page
     return last_page
+
+def get_lat_check():
+    with jsonlines.open(JOURNAL_PATH) as reader:
+        for check in reader:
+            last_check = check
+    return last_check
 
 def write_jsonl(path,json_obj):
     with jsonlines.open(path, mode='a') as writer:

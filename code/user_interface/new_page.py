@@ -1,8 +1,8 @@
 import datetime
 from json_interface import json_interface as ji
 
-PAGE_TEMPLATE_PATH = 'page_template.json'
-CHECKER_TEMPLATE_PATH = 'checker_template.json'
+PAGE_TEMPLATE_PATH = 'code/user_interface/page_template.json'
+CHECKER_TEMPLATE_PATH = 'code/user_interface/checker_template.json'
 
 def page_fill():
     page = ji.load_page_template(PAGE_TEMPLATE_PATH)
@@ -30,7 +30,7 @@ def task_checker(page):
     return checker
 
 def rewrite_field(fieldcat,page):
-    field = fieldcat.rstrip(fieldcat[-1]) + '  '
+    field = fieldcat.rstrip(fieldcat[-1]) + '_ '
     while True:
         fieldnum = input(f"\nWich {fieldcat[:-1]} would you like to re-enter?: ")
         field = field[:-1] + fieldnum
@@ -71,3 +71,6 @@ ji.write_jsonl(ji.JOURNAL_PATH, page)
 ji.write_jsonl(ji.TASK_CHECKER_PATH, task_check)
 
 print("Nice job!\nEntry complete for today!")
+
+#json file review
+ji.print_page(ji.get_last_page())
