@@ -1,7 +1,7 @@
 from json_interface import json_interface as ji
 
 page = ji.get_last_page()
-check = ji.get_last_check()
+check = ji.load_page(ji.TEMP_CHECKER_PATH)
 
 def today_plans(page,check):
     print("\n\nPlans for today:\n")
@@ -21,7 +21,7 @@ def task_mark_done(done,inp):
     if inp<8:
         check["plans_check"][f"plan_{inp}"] = int(done)
         today_plans(page,check)
-        print("\nDo you want to mark another task?\n(which/n):",end="")
+        print("\nDo you want to update another task?\n(which/n):",end="")
     else:
         print('Invalid task! Select from 1 to 7: ', end="")
     inp = input().lower()
@@ -36,7 +36,7 @@ except ValueError:
 task_mark_done(True,inp)
 inp = input("Do you wish to correct(unmark) any task?\n(which/n)").lower()
 task_mark_done(False,inp)
-ji.write_jsonl(ji.TASK_CHECKER_PATH, check)
+ji.write_temp_checker(check) 
 print('\nHere are the updated plans for today:\n')
-today_plans(page,ji.get_last_check())    
+today_plans(page,ji.load_page(ji.TEMP_CHECKER_PATH))    
     

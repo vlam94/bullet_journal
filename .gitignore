@@ -4,3 +4,4 @@ bullet_journal/data
 *.jsonl
 __pycache__/
 *.pyc
+.gitignore

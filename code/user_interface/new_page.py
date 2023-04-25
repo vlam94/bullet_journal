@@ -21,7 +21,7 @@ def page_fill():
     return page
 
 def task_checker(page):
-    checker = ji.get_last_check()
+    checker = ji.load_page(ji.TEMP_CHECKER_PATH)
     for task in page['plans']:
         if not checker['plans_check'][task]:
             check = input(f"Did you completed '{page['plans'][task]}' as planned?\n(y/n)").lower().startswith('y')
@@ -54,7 +54,7 @@ def page_check(page):
         rewrite_field('good_things',page)
     elif field_type.startswith('I'):
         rewrite_field('improvements',page)
-    elif field_type.startswith('P'):
+    else:
         rewrite_field('plans',page)
     page_check(page)
         
@@ -68,7 +68,7 @@ print("\n\nHere's a preview of the page:\n")
 page_check(page)
 ji.write_jsonl(ji.JOURNAL_PATH, page)
 ji.write_jsonl(ji.TASK_CHECKER_PATH, task_check)
-ji
+ji.write_temp_checker(ji.load_today_template(CHECKER_TEMPLATE_PATH))
 print("Nice job!\nEntry complete for today!")
 
 #json file review
