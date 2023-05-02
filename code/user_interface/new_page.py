@@ -43,7 +43,7 @@ def rewrite_field(fieldcat,page):
     return
     
 
-def page_check(page):
+def page_checkout(page):
     ji.print_page (page)
     if input("\nWould you like to change anything?\n(y/n):").lower().startswith('n'):
         return
@@ -56,7 +56,7 @@ def page_check(page):
         rewrite_field('improvements',page)
     else:
         rewrite_field('plans',page)
-    page_check(page)
+    page_checkout(page)
         
   
 
@@ -65,7 +65,7 @@ if yesterday:
     task_check = task_checker(yesterday)
 page = page_fill()
 print("\n\nHere's a preview of the page:\n")
-page_check(page)
+page_checkout(page)
 ji.write_jsonl(ji.JOURNAL_PATH, page)
 ji.write_jsonl(ji.TASK_CHECKER_PATH, task_check)
 ji.write_temp_checker(ji.load_today_template(CHECKER_TEMPLATE_PATH))
