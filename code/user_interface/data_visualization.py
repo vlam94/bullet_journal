@@ -1,1 +1,9 @@
-from json_interface import json_interface as ji
+from json_interface import PagebyDate
+
+
+while True:
+    inp = input("Select a Date in Format 'yyyy-mm-dd' or 'e' to exit:\n")
+    if inp.upper().startswith('E'):
+        break
+    page = PagebyDate(inp)
+    print(page)
