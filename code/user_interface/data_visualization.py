@@ -6,4 +6,5 @@ while True:
     if inp.upper().startswith('E'):
         break
     page = PagebyDate(inp)
-    print(page)
+    if page.page:
+        print(page)

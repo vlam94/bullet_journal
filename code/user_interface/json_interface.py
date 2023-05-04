@@ -70,6 +70,7 @@ class Page(object):
                 check = input(f"Did you completed '{self.page['plans'][task]}' as planned?\n(y/n)").lower().startswith('y')
                 self.checker['plans_check'][task] = int(check)
     
+
 class NewPage (Page):
  
     def __init__(self):
@@ -78,7 +79,6 @@ class NewPage (Page):
         self.page['date'] = self.date
         self.checker = self.load_page(TEMPLATE_CHECKER_PATH)
         self.checker['date'] = self.date
-
 
     def page_fill(self):
         self.page['good_things']['good_thing_1'] = input("What is one good thing that happened today? ")
@@ -91,6 +91,7 @@ class NewPage (Page):
 
         for plan in self.page['plans']:
             self.page['plans'][plan] = input(f"What is your {plan.replace('_', ' ')} for tomorrow? ") 
+
 
 class CheckerPage (Page):
 
@@ -126,6 +127,7 @@ class CheckerPage (Page):
         inp = input("\nDo you want to update another task?\n(which/n): ").lower()    
         self.task_mark_done(done,inp)
 
+
 class CheckoutPage(CheckerPage):      
     
     def __str__(self):
@@ -154,7 +156,6 @@ class CheckoutPage(CheckerPage):
         self.page[fieldcat][field] = input(f"\nre-type {field} bellow:\n")
         return
     
-
     def checkout(self):
         print(self)
         if input("\nWould you like to change anything?\n(y/n):").lower().startswith('n'):
@@ -176,15 +177,20 @@ class CheckoutPage(CheckerPage):
 class PagebyDate (CheckoutPage):
     def __init__(self,date):
         self.date = date
-        while not datetime.strptime(self.date,'%Y-%m-%d'):
-            self.date = input("Wrong format!!! use 'yyyy-mm-dd':\n")
+        while True:
+            try: 
+                datetime.strptime(self.date,'%Y-%m-%d')
+                break
+            except ValueError:
+                self.date = input("Wrong format!!! use 'yyyy-mm-dd':\n")
         self.page = self.get_line_bydate(JOURNAL_PATH)
-        self.checker = self.get_line_bydate(TASK_CHECKER_PATH)
+        if self.page:
+            self.checker = self.get_line_bydate(TASK_CHECKER_PATH)
 
     def get_line_bydate(self,path):
         with jsonlines.open(path) as reader:
             for line in reader:
                 if line['date'] == self.date:
                     return line
-        print (f"date {self.date} not found")
+        print (f"\ndate {self.date} not found!\n\n")
         return None
