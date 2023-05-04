@@ -1,4 +1,5 @@
 #!/bin/bash
+
 path="${0%/*/*}/user_interface"
 cd $path
 python3 task_checker.py
