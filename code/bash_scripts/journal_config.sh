@@ -1,15 +1,24 @@
 #!/bin/bash
 
-cd .. && cd ..
-bullet_path=$(pwd)
+if [$(pwd|grep bash_scripts)]
+then
+    scripts_path=$(pwd)
+else
+    echo "run this script from within it's folder (.../bullet_journal/code/bash_scripts)"
+    exit
+fi
+cd ..; cd ..
+if [  -d "data" ]
+then
+    cowsay -f moose "bullet journal configured!"
+    exit
+fi
 mkdir data
 touch data/journal.jsonl
 touch data/checker.jsonl
 touch data/temp_checker.jsonl
-echo $bullet_path > code/user_interface/json_inteface/path.txt
-chmod -w code/user_interface/json_inteface/path.txt
 cd ~
 sudo echo "#created on bullet journal configuration:" >> .bashrc
-sudo echo 'export PATH=$PATH:'$bullet_path/code/bash_scripts >> .bashrc
+sudo echo 'export PATH=$PATH:'$script_path >> .bashrc
 sudo apt install cowsay -y
 cowsay -f moose "bullet journal configured!"

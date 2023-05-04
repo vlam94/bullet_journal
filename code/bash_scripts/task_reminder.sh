@@ -1,6 +1,6 @@
 #!/bin/bash
 
-journal_path="/home/vlam94/bullet_journal/data/journal.jsonl"
+journal_path="${0%/*/*}/data/journal.jsonl"
 last_page=$(tail -n 1 $journal_path)
 
 echo -e "\n\nPlans for today:\n\n"
