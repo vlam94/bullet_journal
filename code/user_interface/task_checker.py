@@ -1,5 +1,5 @@
 from json_interface import CheckerPage
 
 current = CheckerPage()
-current.task_checker()
+current.check_task()
 current.write_temp()

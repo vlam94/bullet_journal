@@ -1,7 +1,7 @@
-from json_interface import NewPage, Page
+from json_interface import Page, NewPage
 
 current = Page()
-current.task_checker()
+current.check_task()
 current.append_to_journal()
 new = NewPage()
 new.page_fill()
